@@ -1,0 +1,11 @@
+[
+  {
+    "rut": "76685679",
+    "dv": "9",
+    "razon_social": "PANADERIA MINGO LIMITADA",
+    "nombre": "PANADERÍA",
+    "kilos": 27,
+    "precio": 1400,
+    "kilos_variables": true
+  }
+]
