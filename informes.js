@@ -75,9 +75,13 @@ const { clickElement, typeOnInput } = require('./actions')
       }
       return content
     }, selectorTabla)
-    console.log('contentJson', contentJson)
 
-    const dirAnio = `./Data/${anio}/`
+    const dirData = `./Data/`
+    if (!fs.existsSync(dirData)) {
+      fs.mkdirSync(dirData)
+    }
+
+    const dirAnio = `./Data/${anio}`
     if (!fs.existsSync(dirAnio)) {
       fs.mkdirSync(dirAnio)
     }
