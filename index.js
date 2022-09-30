@@ -20,8 +20,10 @@ const calcDaysQty = (startDate, endDate) => {
     console.log("Iniciando sesión en SII ...");
     const browser = await puppeteer.launch({
       headless: process.env.HEADLESS.toLocaleLowerCase() === "true",
+      args: ["--start-maximized"],
     });
     const page = await browser.newPage();
+    await page.setViewport({ width: 1366, height: 768 });
     page.setDefaultNavigationTimeout(Number(process.env.DEFAULT_TIMEOUT));
 
     page.on("dialog", async (dialog) => {
@@ -30,8 +32,8 @@ const calcDaysQty = (startDate, endDate) => {
       //accept alert
       await dialog.accept();
     });
-
-    try {
+    
+    try {    
       await page.goto(
         "https://zeusr.sii.cl//AUT2000/InicioAutenticacion/IngresoRutClave.html?https://misiir.sii.cl/cgi_misii/siihome.cgi"
       );
