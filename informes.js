@@ -1,4 +1,6 @@
 require('dotenv').config()
+const fs = require('fs')
+
 const datosClientes = require('./datosClientes.json')
 const diasSinGuias = require('./diasSinGuias.json')
 const { getRandomIntInclusive } = require('./utils')
@@ -44,6 +46,58 @@ const { clickElement, typeOnInput } = require('./actions')
     const selectorBotonInformes =
       '#my-wrapper > div.web-sii.cuerpo > div > p > input:nth-child(1)'
     await clickElement(page, selectorBotonInformes)
+
+    //SCRAPPING
+    const selectorTabla = 'table#toPrint'
+    await page.waitForSelector(selectorTabla)
+
+    const contentJson = await page.evaluate((selectorTabla) => {
+      const tbody = document.querySelector(selectorTabla + ' tbody')
+      // iterate through the table rows
+      const trs = Array.from(tbody.querySelectorAll('tr'))
+      let content = []
+      // iterate through each row of table
+      for (const tr of trs) {
+        const tds = Array.from(tr.querySelectorAll('td'))
+        const data = tds.map((td) => td.innerText)
+        if (tds.length >= 5) {
+          // push the data
+          content = [
+            {
+              rut: data[0],
+              folio: data[3],
+              fecha: data[4],
+              monto: Number(data[5]),
+            },
+            ...content,
+          ]
+        }
+      }
+      return content
+    }, selectorTabla)
+    console.log('contentJson', contentJson)
+
+    const dirAnio = `./Data/${anio}/`
+    if (!fs.existsSync(dirAnio)) {
+      fs.mkdirSync(dirAnio)
+    }
+
+    const dir = `./Data/${anio}/${mes}`
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir)
+    }
+
+    fs.writeFile(
+      `${dir}/${cliente.rut}.json`,
+      JSON.stringify(contentJson, null, 2),
+      (err) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(`Data of ${cliente.rut} Scraped`)
+        }
+      }
+    )
   }
 
   const myArgs = process.argv.slice(2)
@@ -60,11 +114,45 @@ const { clickElement, typeOnInput } = require('./actions')
       'MODO DE PRUEBAS (proceso completo pero sin firmar documento al final)'
     )
   }
-  // LOGIN
-  const { browser, page } = await login()
-  const cliente = datosClientes.find(({ rut }) => rut == envStartRut)
-  console.log('cliente', cliente)
-  generarInformes(page, envDate, envMonth, envYear, cliente)
+  // const cliente = datosClientes.find(({ rut }) => rut == envStartRut)
+  // console.log('cliente', cliente)
+  // generarInformes(page, envDate, envMonth, envYear, cliente)
 
-  // await browser.close()
+  let indexWhile = 0
+  if (envStartRut && envStartRut != 1) {
+    indexWhile = datosClientes.findIndex(({ rut }) => {
+      return rut === envStartRut
+    })
+  }
+
+  if (indexWhile == -1) {
+    console.log('////////////////////////////////////////////')
+    console.log('Rut cliente no encontrado. Revisa bien -.-')
+    console.log('////////////////////////////////////////////')
+    return
+  }
+
+  const length = envQtyFromStart ?? datosClientes.length
+  const maxErrors = 3
+  let errorCount = 0
+
+  while (indexWhile < length && errorCount < maxErrors) {
+    try {
+      // LOGIN
+      const { browser, page } = await login()
+      const cliente = datosClientes[indexWhile]
+      console.log('===============')
+      console.log(`RUT: ${cliente.rut}`)
+      await generarInformes(page, envDate, envMonth, envYear, cliente)
+      indexWhile += 1
+      errorCount = 0
+      //close browser
+      await browser.close()
+    } catch (error) {
+      console.log('Error')
+      console.log(error)
+      errorCount += 1
+      await browser.close()
+    }
+  }
 })()
