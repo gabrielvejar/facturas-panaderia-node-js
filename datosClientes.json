@@ -1,5 +1,150 @@
 [
   {
+    "rut": "13914981",
+    "dv": "5",
+    "razon_social": "PRISCILLA ANDREA NARVAEZ AHUMADA",
+    "nombre": "LOS NIETOS",
+    "kilos": 12,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "13238624",
+    "dv": "2",
+    "razon_social": "FABIOLA ANDREA GOMEZ VENEGAS",
+    "nombre": "FABIOLA",
+    "kilos": 25,
+    "precio": 1550,
+    "kilos_variables": true
+  },
+  {
+    "rut": "9091157",
+    "dv": "0",
+    "razon_social": "HECTOR ALFONSO IBARRA VENEGAS",
+    "nombre": "LA PLAZA",
+    "kilos": 20,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "9898398",
+    "dv": "8",
+    "razon_social": "LUIS JAVIER MENDOZA PAINEQUEO",
+    "nombre": "MENDOZA",
+    "kilos": 15,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "7255210",
+    "dv": "5",
+    "razon_social": "MARIA ANGELICA TORRI GONZALEZ",
+    "nombre": "MARY",
+    "kilos": 30,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "4643195",
+    "dv": "2",
+    "razon_social": "JUANA DEL CARMEN YANEZ YANEZ",
+    "nombre": "JUANA",
+    "kilos": 7,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "7585749",
+    "dv": "7",
+    "razon_social": "ELVIRA CECILIA BERMUDEZ LARA",
+    "nombre": "PATO",
+    "kilos": 10,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "9098392",
+    "dv": "K",
+    "razon_social": "CRISTIAN ANDRES GONZALEZ PINO",
+    "nombre": "CRISTIAN",
+    "kilos": 4,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "17256921",
+    "dv": "8",
+    "razon_social": "DANIELA CAROLINA HERRERA PADILLA",
+    "nombre": "DANIELA",
+    "kilos": 15,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+
+  {
+    "rut": "19031545",
+    "dv": "2",
+    "razon_social": "ARACY EDMARA COLQUE FUENTES",
+    "nombre": "JOHANA",
+    "kilos": 20,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "10382202",
+    "dv": "5",
+    "razon_social": "MARCOS ALEXIS DE LA BARRA LAGOS",
+    "nombre": "MARCO",
+    "kilos": 15,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "19002997",
+    "dv": "2",
+    "razon_social": "CAMILA ANDREA IBARRA LOPEZ",
+    "nombre": "CAMY",
+    "kilos": 5,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "15241765",
+    "dv": "9",
+    "razon_social": "ELIANA YANETT HUENTEN PAINEQUEO",
+    "nombre": "ELIANA",
+    "kilos": 10,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "77469152",
+    "dv": "9",
+    "razon_social": "INVERSIONES LEPE GALVEZ SPA",
+    "nombre": "FIAMBRERIA",
+    "kilos": 30,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "77049909",
+    "dv": "7",
+    "razon_social": "COMERCIAL VALENTINA GONZALEZ SPA",
+    "nombre": "VALENTINA",
+    "kilos": 15,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "12091324",
+    "dv": "7",
+    "razon_social": "PATRICIO HERNAN VERA VALDES",
+    "nombre": "DENISS",
+    "kilos": 10,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
     "rut": "76685679",
     "dv": "9",
     "razon_social": "PANADERIA MINGO LIMITADA",

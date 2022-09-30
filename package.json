@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "guias": "node index.js"
+    "guias": "node guias.js",
+    "facturas": "node facturas.js"
   },
   "author": "deVjar",
   "license": "ISC",
