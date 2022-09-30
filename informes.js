@@ -64,7 +64,7 @@ const { clickElement, typeOnInput } = require('./actions')
           // push the data
           content = [
             {
-              rut: data[0],
+              rut: data[1],
               folio: data[3],
               fecha: data[4],
               monto: Number(data[5]),
