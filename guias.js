@@ -161,7 +161,9 @@ const { login } = require('./commands')
   }
 
   for (let index = 0; index < calcDaysQty(envStartDate, envEndDate); index++) {
-    const length = envQtyFromStart ?? datosClientes.length
+    const length = envQtyFromStart
+      ? Number(envQtyFromStart) + indexWhile
+      : datosClientes.length
     const maxErrors = 3
     let errorCount = 0
     currentDate =
@@ -173,7 +175,12 @@ const { login } = require('./commands')
     console.log(
       `Generando guías de despacho para el día ${envYear}/${envMonth}/${currentDate} ...`
     )
+    console.log('indexWhile', indexWhile)
+    console.log('length', length)
+    console.log('errorCount', errorCount)
+    console.log('maxErrors', maxErrors)
     while (indexWhile < length && errorCount < maxErrors) {
+      console.log('entro al while')
       try {
         const cliente = datosClientes[indexWhile]
         console.log('===============')
