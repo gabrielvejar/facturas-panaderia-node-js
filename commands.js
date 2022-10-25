@@ -25,10 +25,16 @@ module.exports = {
       )
 
       //INGRESAR CREDENCIALES
-      await actions.typeOnInput(page, 'input[name="rutcntr"]', '9.488.274-5')
-      await actions.typeOnInput(page, 'input[name="clave"]', 'perez1962')
-      //   await page.type('input[name="rutcntr"]', '9.488.274-5')
-      //   await page.type('input[name="clave"]', 'perez1962')
+      await actions.typeOnInput(
+        page,
+        'input[name="rutcntr"]',
+        process.env.SII_USER
+      )
+      await actions.typeOnInput(
+        page,
+        'input[name="clave"]',
+        process.env.SII_PASSWORD
+      )
 
       //CLICK INICIAR SESION
       const submitButton = await page.$('#bt_ingresar')

@@ -96,8 +96,6 @@ const { login } = require('./commands')
       document.querySelector('button[name="Button_Update"]').click()
     )
 
-    await page.waitForTimeout(5000)
-
     const selectorConfirm = 'input[name="btnSign"]'
     await page.waitForSelector(selectorConfirm)
 
@@ -109,7 +107,7 @@ const { login } = require('./commands')
     await page.waitForSelector(selectorPassword)
     await page.waitForTimeout(2000)
     await page.evaluate(() => (document.querySelector('#myPass').value = ''))
-    await page.type(selectorPassword, 'perez1962')
+    await page.type(selectorPassword, process.env.SII_PASSWORD)
     await page.waitForTimeout(500)
 
     // disable for dry run
