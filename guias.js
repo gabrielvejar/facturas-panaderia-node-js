@@ -73,14 +73,30 @@ const { login } = require('./commands')
     //precio unitario neto
     await page.type(
       selectorPrecioUn,
-      String((precio / 1.19).toFixed(2)).replace('.', ',')
+      String((precio / 1.19).toFixed(2))
+      // .replace('.', ',')
     )
 
     await page.$eval(selectorPrecioUn, (e) => e.blur())
 
+    const precioInput = await page.$eval(selectorPrecioUn, (input) => {
+      return input.getAttribute('value')
+    })
+
+    //CHECK INPUT INCLUDES DECIMAL POINT. IF NOT, CHANGE TO DECIMAL COMMA
+    if (!precioInput.includes('.')) {
+      await page.type(
+        selectorPrecioUn,
+        String((precio / 1.19).toFixed(2)).replace('.', ',')
+      )
+      await page.$eval(selectorPrecioUn, (e) => e.blur())
+    }
+
     await page.evaluate(() =>
       document.querySelector('button[name="Button_Update"]').click()
     )
+
+    await page.waitForTimeout(5000)
 
     const selectorConfirm = 'input[name="btnSign"]'
     await page.waitForSelector(selectorConfirm)

@@ -145,6 +145,15 @@
     "kilos_variables": true
   },
   {
+    "rut": "12830806",
+    "dv": "7",
+    "razon_social": "CAROL VALERIA LAVIN MORALES",
+    "nombre": "CAROL",
+    "kilos": 3,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
     "rut": "76685679",
     "dv": "9",
     "razon_social": "PANADERIA MINGO LIMITADA",
