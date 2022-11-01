@@ -156,7 +156,6 @@ const { clickElement, typeOnInput } = require('./actions')
       console.log('Error')
       console.log(error)
       errorCount += 1
-      await browser.close()
     }
   }
 })()
