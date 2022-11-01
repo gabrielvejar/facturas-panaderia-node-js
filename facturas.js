@@ -1,7 +1,6 @@
 require('dotenv').config()
 const datosClientes = require('./datosClientes.json')
 const { meses } = require('./const.json')
-const { getRandomIntInclusive } = require('./utils')
 const { login } = require('./commands')
 const fs = require('fs')
 

@@ -2,8 +2,6 @@ require('dotenv').config()
 const fs = require('fs')
 
 const datosClientes = require('./datosClientes.json')
-const diasSinGuias = require('./diasSinGuias.json')
-const { getRandomIntInclusive } = require('./utils')
 const { login } = require('./commands')
 const { clickElement, typeOnInput } = require('./actions')
 

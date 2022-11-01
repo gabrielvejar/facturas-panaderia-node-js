@@ -1,5 +1,4 @@
 require('dotenv').config()
-const puppeteer = require('puppeteer')
 const datosClientes = require('./datosClientes.json')
 const diasSinGuias = require('./diasSinGuias.json')
 const { getRandomIntInclusive, calcDaysQty } = require('./utils')
