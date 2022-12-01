@@ -14,6 +14,7 @@ const fs = require('fs')
   const envStartRut = myArgs[3]
   const envQtyFromStart = myArgs[4]
 
+  const dryRunMode = process.env.DRY_RUN.toLocaleLowerCase() === 'true'
   const dir = `./Data/${envYear}/${envMonth}`
 
   let facturas = []
@@ -187,8 +188,9 @@ const fs = require('fs')
       return input.value
     })
 
-    const totalInputTruncado = totalInput.replace(/.$/, '0')
-    const totalTruncado = String(total).replace(/.$/, '0')
+    //TODO cambiar comprobacion a diferencia porcentual
+    const totalInputTruncado = totalInput.replace(/...$/, '000')
+    const totalTruncado = String(total).replace(/...$/, '000')
 
     if (
       totalInput.length !== String(total).length ||
@@ -196,6 +198,7 @@ const fs = require('fs')
     ) {
       console.log('totalInput', totalInput)
       console.log('totalInputTruncado', totalInputTruncado)
+      console.log('totalTruncado', totalTruncado)
       throw Error('Total factura erroneo')
     }
 
@@ -205,6 +208,11 @@ const fs = require('fs')
 
     const selectorConfirm = 'input[name="btnSign"]'
     await page.waitForSelector(selectorConfirm)
+
+    //wait to check the preview
+    if (dryRunMode) {
+      await page.waitForTimeout(5000)
+    }
 
     await page.evaluate(() =>
       document.querySelector('input[name="btnSign"]').click()
@@ -218,7 +226,6 @@ const fs = require('fs')
     await page.waitForTimeout(500)
 
     // disable for dry run
-    const dryRunMode = process.env.DRY_RUN.toLocaleLowerCase() === 'true'
     if (!dryRunMode) {
       await page.evaluate(() =>
         document.querySelector('button[id="btnFirma"]').click()
