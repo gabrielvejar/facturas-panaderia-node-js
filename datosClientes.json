@@ -80,16 +80,6 @@
     "precio": 1700,
     "kilos_variables": true
   },
-
-  {
-    "rut": "19031545",
-    "dv": "2",
-    "razon_social": "ARACY EDMARA COLQUE FUENTES",
-    "nombre": "JOHANA",
-    "kilos": 20,
-    "precio": 1700,
-    "kilos_variables": true
-  },
   {
     "rut": "10382202",
     "dv": "5",
@@ -114,15 +104,6 @@
     "razon_social": "ELIANA YANETT HUENTEN PAINEQUEO",
     "nombre": "ELIANA",
     "kilos": 10,
-    "precio": 1700,
-    "kilos_variables": true
-  },
-  {
-    "rut": "77469152",
-    "dv": "9",
-    "razon_social": "INVERSIONES LEPE GALVEZ SPA",
-    "nombre": "FIAMBRERIA",
-    "kilos": 30,
     "precio": 1700,
     "kilos_variables": true
   },
@@ -160,6 +141,24 @@
     "nombre": "PANADERÍA",
     "kilos": 260,
     "precio": 1400,
+    "kilos_variables": true
+  },
+  {
+    "rut": "77737077",
+    "dv": "4",
+    "razon_social": "VALENTINA MACARENA CAMUS HIDALGO",
+    "nombre": "POLI",
+    "kilos": 10,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "14169740",
+    "dv": "4",
+    "razon_social": "ALMACEN HERALDO",
+    "nombre": "TORRE",
+    "kilos": 13,
+    "precio": 1600,
     "kilos_variables": true
   }
 ]

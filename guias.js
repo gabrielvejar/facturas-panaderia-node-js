@@ -15,6 +15,8 @@ const { login } = require('./commands')
       return
     }
 
+    const dryRunMode = process.env.DRY_RUN.toLocaleLowerCase() === 'true'
+
     const ciudad = 'SANTIAGO'
     const selectorRut = 'input[name="EFXP_RUT_RECEP"]'
     const selectorDv = 'input[name="EFXP_DV_RECEP"]'
@@ -98,6 +100,10 @@ const { login } = require('./commands')
     const selectorConfirm = 'input[name="btnSign"]'
     await page.waitForSelector(selectorConfirm)
 
+    if (dryRunMode) {
+      await page.waitForTimeout(10000)
+    }
+
     await page.evaluate(() =>
       document.querySelector('input[name="btnSign"]').click()
     )
@@ -110,7 +116,6 @@ const { login } = require('./commands')
     await page.waitForTimeout(500)
 
     // disable for dry run
-    const dryRunMode = process.env.DRY_RUN.toLocaleLowerCase() === 'true'
     if (!dryRunMode) {
       await page.evaluate(() =>
         document.querySelector('button[id="btnFirma"]').click()
@@ -159,12 +164,17 @@ const { login } = require('./commands')
     return
   }
 
-  for (let index = 0; index < calcDaysQty(envStartDate, envEndDate); index++) {
+  const maxErrors = 3
+  let errorCount = 0
+  for (
+    let index = 0;
+    index < calcDaysQty(envStartDate, envEndDate) &&
+    (errorCount < maxErrors || true);
+    index++
+  ) {
     const length = envQtyFromStart
       ? Number(envQtyFromStart) + indexWhile
       : datosClientes.length
-    const maxErrors = 3
-    let errorCount = 0
     currentDate =
       String(currentDate).length === 1
         ? '0'.concat(String(currentDate))
@@ -178,7 +188,7 @@ const { login } = require('./commands')
     console.log('length', length)
     console.log('errorCount', errorCount)
     console.log('maxErrors', maxErrors)
-    while (indexWhile < length && errorCount < maxErrors) {
+    while (indexWhile < length && (errorCount < maxErrors || true)) {
       console.log('entro al while')
       try {
         const cliente = datosClientes[indexWhile]

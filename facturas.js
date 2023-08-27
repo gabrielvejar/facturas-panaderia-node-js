@@ -188,17 +188,13 @@ const fs = require('fs')
       return input.value
     })
 
-    //TODO cambiar comprobacion a diferencia porcentual
-    const totalInputTruncado = totalInput.replace(/...$/, '000')
-    const totalTruncado = String(total).replace(/...$/, '000')
+    const totalInputInt = Number(totalInput)
+    const perDiff = total / totalInputInt
 
-    if (
-      totalInput.length !== String(total).length ||
-      totalInputTruncado !== totalTruncado
-    ) {
-      console.log('totalInput', totalInput)
-      console.log('totalInputTruncado', totalInputTruncado)
-      console.log('totalTruncado', totalTruncado)
+    console.log('total', total)
+    console.log('totalInputInt', totalInputInt)
+    console.log('Diferencia porcentual', perDiff)
+    if (perDiff > 1.01 || perDiff < 0.99) {
       throw Error('Total factura erroneo')
     }
 
@@ -211,7 +207,7 @@ const fs = require('fs')
 
     //wait to check the preview
     if (dryRunMode) {
-      await page.waitForTimeout(5000)
+      await page.waitForTimeout(10000)
     }
 
     await page.evaluate(() =>

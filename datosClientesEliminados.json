@@ -1,0 +1,20 @@
+[
+  {
+    "rut": "19031545",
+    "dv": "2",
+    "razon_social": "ARACY EDMARA COLQUE FUENTES",
+    "nombre": "JOHANA",
+    "kilos": 20,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "14169740",
+    "dv": "4",
+    "razon_social": "ALMACEN HERALDO",
+    "nombre": "TORRE",
+    "kilos": 13,
+    "precio": 1600,
+    "kilos_variables": true
+  }
+]

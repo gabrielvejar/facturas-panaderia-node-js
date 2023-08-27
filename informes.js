@@ -15,30 +15,34 @@ const { clickElement, typeOnInput } = require('./actions')
 
     // RUT
     const selectorRut =
-      '#collapseFiltro > div > form > div:nth-child(3) > div:nth-child(1) > div > input'
+      '#collapseFiltro > div > form > div:nth-child(4) > div:nth-child(1) > div > input'
     await typeOnInput(page, selectorRut, rutCliente, 500)
 
     // Fecha desde
     const selectorFechaDesde =
-      '#collapseFiltro > div > form > div:nth-child(5) > div:nth-child(1) > div > input'
+      '#collapseFiltro > div > form > div:nth-child(6) > div:nth-child(1) > div > input'
     const fechaDesde = `01/${mes}/${anio}`
     await typeOnInput(page, selectorFechaDesde, fechaDesde, 500)
 
     // Fecha hasta
     const selectorFechaHasta =
-      '#collapseFiltro > div > form > div:nth-child(5) > div:nth-child(2) > div > input'
+      '#collapseFiltro > div > form > div:nth-child(6) > div:nth-child(2) > div > input'
     const fechaHasta = `${diaFactura}/${mes}/${anio}`
     await typeOnInput(page, selectorFechaHasta, fechaHasta, 500)
 
     // Tipo documento
     const selectorTipoDoc =
-      '#collapseFiltro > div > form > div:nth-child(6) > div:nth-child(1) > div > select'
+      '#collapseFiltro > div > form > div:nth-child(7) > div:nth-child(1) > div > select'
     await page.select(selectorTipoDoc, '52')
 
     // Botón Buscar
     const selectorBotonBuscar =
-      '#collapseFiltro > div > form > div:nth-child(7) > div > input'
+      '#collapseFiltro > div > form > div:nth-child(8) > div > input'
     await clickElement(page, selectorBotonBuscar)
+
+    await page.waitForNavigation()
+
+    await clickElement(page, selectorBuscador)
 
     // Botón Informes
     const selectorBotonInformes =
