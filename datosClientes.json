@@ -117,15 +117,6 @@
     "kilos_variables": true
   },
   {
-    "rut": "12091324",
-    "dv": "7",
-    "razon_social": "PATRICIO HERNAN VERA VALDES",
-    "nombre": "DENISS",
-    "kilos": 10,
-    "precio": 1700,
-    "kilos_variables": true
-  },
-  {
     "rut": "12830806",
     "dv": "7",
     "razon_social": "CAROL VALERIA LAVIN MORALES",
@@ -160,5 +151,14 @@
     "kilos": 13,
     "precio": 1600,
     "kilos_variables": true
+  },
+  {
+    "rut": "77469152",
+    "dv": "9",
+    "razon_social": "INVERSIONES LEPE GALVEZ SPA",
+    "nombre": "FIAMBRERIA",
+    "kilos": 30,
+    "precio": 1700,
+    "kilos_variables": false
   }
 ]

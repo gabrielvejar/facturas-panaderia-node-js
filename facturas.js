@@ -110,7 +110,7 @@ const fs = require('fs')
     const razonReferencia = '0'
 
     const selectorTotal =
-      '#invoice > div:nth-child(19) > div:nth-child(8) > div > input'
+      '#VIEW_EFXP > div:nth-child(7) > div:nth-child(8) > div > input'
 
     await page.goto(
       'https://www1.sii.cl/cgi-bin/Portal001/mipeGenFacEx.cgi?PTDC_CODIGO=33'

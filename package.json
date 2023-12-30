@@ -15,7 +15,7 @@
   "dependencies": {
     "dotenv": "16.0.2",
     "eslint-plugin-prettier": "^4.2.1",
-    "puppeteer": "18.0.5"
+    "puppeteer": "^21.3.4"
   },
   "devDependencies": {
     "eslint": "^8.24.0",
