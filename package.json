@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "guias": "node guias.js",
+    "informes": "node informes.js",
     "facturas": "node facturas.js"
   },
   "author": "deVjar",

@@ -60,6 +60,7 @@ module.exports = {
       return { browser, page }
     } catch (error) {
       browser.close()
+      console.log(error)
       throw new Error('Error al iniciar sesión.')
     }
   },
