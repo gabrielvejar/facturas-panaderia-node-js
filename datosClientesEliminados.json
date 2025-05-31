@@ -16,5 +16,32 @@
     "kilos": 13,
     "precio": 1600,
     "kilos_variables": true
+  },
+  {
+    "rut": "9898398",
+    "dv": "8",
+    "razon_social": "LUIS JAVIER MENDOZA PAINEQUEO",
+    "nombre": "MENDOZA",
+    "kilos": 15,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "77049909",
+    "dv": "7",
+    "razon_social": "COMERCIAL VALENTINA GONZALEZ SPA",
+    "nombre": "VALENTINA",
+    "kilos": 15,
+    "precio": 1700,
+    "kilos_variables": true
+  },
+  {
+    "rut": "77737077",
+    "dv": "4",
+    "razon_social": "VALENTINA MACARENA CAMUS HIDALGO",
+    "nombre": "POLI",
+    "kilos": 10,
+    "precio": 1700,
+    "kilos_variables": true
   }
 ]

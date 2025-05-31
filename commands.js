@@ -5,7 +5,8 @@ module.exports = {
   login: async () => {
     console.log('Iniciando sesión en SII ...')
     const browser = await puppeteer.launch({
-      headless: process.env.HEADLESS.toLocaleLowerCase() === 'true',
+      headless:
+        process.env.HEADLESS.toLocaleLowerCase() === 'true' ? 'new' : false,
       args: ['--start-maximized'],
     })
     const page = await browser.newPage()

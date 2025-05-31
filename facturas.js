@@ -218,7 +218,7 @@ const fs = require('fs')
     await page.waitForSelector(selectorPassword)
     await page.waitForTimeout(2000)
     await page.evaluate(() => (document.querySelector('#myPass').value = ''))
-    await page.type(selectorPassword, process.env.SII_PASSWORD)
+    await page.type(selectorPassword, process.env.CERT_PASSWORD)
     await page.waitForTimeout(500)
 
     // disable for dry run
