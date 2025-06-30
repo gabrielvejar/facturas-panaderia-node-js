@@ -9,7 +9,10 @@
     "lint-fix": "eslint . --fix",
     "guias": "node guias.js",
     "informes": "node informes.js",
-    "facturas": "node facturas.js"
+    "facturas": "node facturas.js",
+    "g": "node guias.js",
+    "i": "node informes.js",
+    "f": "node facturas.js"
   },
   "author": "deVjar",
   "license": "ISC",
