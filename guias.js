@@ -166,6 +166,10 @@ const { login } = require('./commands')
 
   const maxErrors = 3
   let errorCount = 0
+
+  // LOGIN
+  const { browser, page } = await login()
+
   for (
     let index = 0;
     index < calcDaysQty(envStartDate, envEndDate) &&
@@ -179,8 +183,10 @@ const { login } = require('./commands')
       String(currentDate).length === 1
         ? '0'.concat(String(currentDate))
         : String(currentDate)
-    // LOGIN
-    const { browser, page } = await login()
+
+    // // LOGIN
+    // const { browser, page } = await login()
+
     console.log(
       `Generando guías de despacho para el día ${envYear}/${envMonth}/${currentDate} ...`
     )
@@ -214,6 +220,18 @@ const { login } = require('./commands')
 
     indexWhile = 0
     currentDate = Number(currentDate) + 1
-    await browser.close()
+    // await browser.close()
   }
+
+  // cerrar sesion
+  const selectorCerrarSesion = '#cerrar-sesion'
+  await page.waitForSelector(selectorCerrarSesion)
+  await page.waitForTimeout(2000)
+  await page.evaluate(() => document.querySelector('#cerrar-sesion a').click())
+
+  const selectorLogin = '#sinAutenticacion > li > a'
+  await page.waitForSelector(selectorLogin)
+  await page.waitForTimeout(5000)
+
+  await browser.close()
 })()

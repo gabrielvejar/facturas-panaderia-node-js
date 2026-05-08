@@ -124,14 +124,5 @@
     "kilos": 30,
     "precio": 1700,
     "kilos_variables": false
-  },
-  {
-    "rut": "78157961",
-    "dv": "0",
-    "razon_social": "MINIMARKET DANIELA NAVARRETE ASIN SPA",
-    "nombre": "MINIMARKET DANIELA",
-    "kilos": 9,
-    "precio": 1700,
-    "kilos_variables": false
   }
 ]

@@ -43,5 +43,14 @@
     "kilos": 10,
     "precio": 1700,
     "kilos_variables": true
+  },
+  {
+    "rut": "19002997",
+    "dv": "2",
+    "razon_social": "CAMILA ANDREA IBARRA LOPEZ",
+    "nombre": "CAMY",
+    "kilos": 5,
+    "precio": 1700,
+    "kilos_variables": true
   }
 ]

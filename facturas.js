@@ -258,25 +258,40 @@ const fs = require('fs')
   const maxErrors = 3
   let errorCount = 0
 
+  let browserGlobal
+  let pageGlobal
+
+  try {
+    // LOGIN
+    const { browser, page } = await login()
+    browserGlobal = browser
+    pageGlobal = page
+  } catch (error) {
+    
+  }
+
   while (indexWhile < length && errorCount < maxErrors) {
-    let browserGlobal
     try {
-      // LOGIN
-      const { browser, page } = await login()
-      browserGlobal = browser
       const factura = facturas[indexWhile]
       console.log('===============')
       console.log(`RUT: ${factura.rut}`)
-      await hacerFacturas(page, envDate, envMonth, envYear, factura)
+      await hacerFacturas(pageGlobal, envDate, envMonth, envYear, factura)
       indexWhile += 1
       errorCount = 0
-      //close browser
-      await browser.close()
+      // //close browser
+      // await browser.close()
     } catch (error) {
       console.log('Error')
       console.log(error)
       errorCount += 1
       browserGlobal?.close()
+      // RE-LOGIN
+      const { browser, page } = await login()
+      browserGlobal = browser
+      pageGlobal = page
     }
   }
+  browserGlobal?.close()
+  console.log('--- Proceso terminado ---')
+
 })()
