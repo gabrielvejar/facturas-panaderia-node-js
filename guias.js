@@ -4,7 +4,32 @@ const diasSinGuias = require('./diasSinGuias.json')
 const { getRandomIntInclusive, calcDaysQty } = require('./utils')
 const { login } = require('./commands')
 
+const defaultTimeout = Number(process.env.DEFAULT_TIMEOUT) || 60000
+const logoutUrl = 'https://zeusr.sii.cl/cgi_AUT2000/autTermino.cgi'
+
 ;(async () => {
+  const cerrarSesion = async (page) => {
+    const selectorCerrarSesion = `a[href*="autTermino.cgi"]`
+
+    try {
+      await page.waitForSelector(selectorCerrarSesion, { timeout: 5000 })
+      await page.evaluate((selector) => {
+        document.querySelector(selector).click()
+      }, selectorCerrarSesion)
+    } catch (error) {
+      console.log('No se encontro el link de cierre. Cerrando por URL directa.')
+      await page.goto(logoutUrl, {
+        waitUntil: 'domcontentloaded',
+        timeout: defaultTimeout,
+      })
+    }
+
+    const selectorLogin = '#sinAutenticacion > li > a'
+    await page.waitForSelector(selectorLogin, { timeout: defaultTimeout })
+    await page.waitForTimeout(2000)
+    console.log('Sesión cerrada.')
+  }
+
   const generarGuiasDia = async (page, dia, mes, anio, cliente) => {
     const { rut, dv, kilos, kilos_variables, precio, nombre } = cliente
     if (
@@ -26,11 +51,14 @@ const { login } = require('./commands')
     const selectorMes = 'select[name="cbo_mes_boleta"]'
     const selectorAnio = 'select[name="cbo_anio_boleta"]'
 
+    const selectorNombreDetalle = 'input[name="EFXP_NMB_01"]'
     const selectorKilos = 'input[name="EFXP_QTY_01"]'
     const selectorPrecioUn = 'input[name="EFXP_PRC_01"]'
 
     await page.goto(
-      'https://www1.sii.cl/cgi-bin/Portal001/mipeGenFacEx.cgi?IGUAL=CODIGO&VALOR=1663100846&PTDC_CODIGO=52'
+      // 'https://www1.sii.cl/cgi-bin/Portal001/mipeGenFacEx.cgi?IGUAL=CODIGO&VALOR=1663100846&PTDC_CODIGO=52',
+      'https://www1.sii.cl/cgi-bin/Portal001/mipeLaunchPage.cgi?OPCION=52&TIPO=4',
+      { waitUntil: 'domcontentloaded', timeout: defaultTimeout }
     )
 
     await page.waitForSelector(selectorRut)
@@ -62,6 +90,10 @@ const { login } = require('./commands')
     await page.evaluate(
       () => (document.querySelector('input[name="EFXP_PRC_01"]').value = '')
     )
+
+    // nombre detalle
+    await page.type(selectorNombreDetalle, 'PAN CORRIENTE')
+
     //kilos fijos o variables
     let variacion = kilos > 10 ? Math.floor(kilos / 10) : 1
     variacion = variacion > 3 ? 3 : variacion
@@ -164,74 +196,71 @@ const { login } = require('./commands')
     return
   }
 
-  const maxErrors = 3
+  const maxErrors = 5
   let errorCount = 0
 
-  // LOGIN
-  const { browser, page } = await login()
+  let browser
+  let page
 
-  for (
-    let index = 0;
-    index < calcDaysQty(envStartDate, envEndDate) &&
-    (errorCount < maxErrors || true);
-    index++
-  ) {
-    const length = envQtyFromStart
-      ? Number(envQtyFromStart) + indexWhile
-      : datosClientes.length
-    currentDate =
-      String(currentDate).length === 1
-        ? '0'.concat(String(currentDate))
-        : String(currentDate)
+  try {
+    // Un solo inicio de sesión para todo el rango de días.
+    const sesion = await login()
+    browser = sesion.browser
+    page = sesion.page
 
-    // // LOGIN
-    // const { browser, page } = await login()
+    for (
+      let index = 0;
+      index < calcDaysQty(envStartDate, envEndDate) && errorCount < maxErrors;
+      index++
+    ) {
+      const length = envQtyFromStart
+        ? Number(envQtyFromStart) + indexWhile
+        : datosClientes.length
+      currentDate =
+        String(currentDate).length === 1
+          ? '0'.concat(String(currentDate))
+          : String(currentDate)
 
-    console.log(
-      `Generando guías de despacho para el día ${envYear}/${envMonth}/${currentDate} ...`
-    )
-    console.log('indexWhile', indexWhile)
-    console.log('length', length)
-    console.log('errorCount', errorCount)
-    console.log('maxErrors', maxErrors)
-    while (indexWhile < length && (errorCount < maxErrors || true)) {
-      console.log('entro al while')
+      console.log(
+        `Generando guías de despacho para el día ${envYear}/${envMonth}/${currentDate} ...`
+      )
+      console.log('indexWhile', indexWhile)
+      console.log('length', length)
+      console.log('errorCount', errorCount)
+      console.log('maxErrors', maxErrors)
+      while (indexWhile < length && errorCount < maxErrors) {
+        console.log('entro al while')
+        try {
+          const cliente = datosClientes[indexWhile]
+          console.log('===============')
+          console.log(`RUT: ${cliente.rut}`)
+          await generarGuiasDia(page, currentDate, envMonth, envYear, cliente)
+          indexWhile += 1
+          errorCount = 0
+        } catch (error) {
+          console.log('Error')
+          console.log(error)
+          errorCount += 1
+        }
+      }
+
+      console.log('===============')
+      console.log(`GUIAS FINALIZADAS. ${envYear}/${envMonth}/${currentDate}`)
+      console.log('===============')
+
+      indexWhile = 0
+      currentDate = Number(currentDate) + 1
+    }
+  } finally {
+    if (page) {
       try {
-        const cliente = datosClientes[indexWhile]
-        console.log('===============')
-        console.log(`RUT: ${cliente.rut}`)
-        await generarGuiasDia(page, currentDate, envMonth, envYear, cliente)
-        indexWhile += 1
-        errorCount = 0
+        await cerrarSesion(page)
       } catch (error) {
-        console.log('Error')
+        console.log('No se pudo cerrar sesión desde la página.')
         console.log(error)
-        errorCount += 1
       }
     }
 
-    // await page.goto(
-    //   "https://www1.sii.cl/cgi-bin/Portal001/mipeAdminDocsEmi.cgi?RUT_RECP=&FOLIO=&RZN_SOC=&FEC_DESDE=&FEC_HASTA=&TPO_DOC=&ESTADO=&ORDEN=&NUM_PAG=1"
-    // );
-
-    console.log('===============')
-    console.log(`GUIAS FINALIZADAS. ${envYear}/${envMonth}/${currentDate}`)
-    console.log('===============')
-
-    indexWhile = 0
-    currentDate = Number(currentDate) + 1
-    // await browser.close()
+    await browser?.close()
   }
-
-  // cerrar sesion
-  const selectorCerrarSesion = '#cerrar-sesion'
-  await page.waitForSelector(selectorCerrarSesion)
-  await page.waitForTimeout(2000)
-  await page.evaluate(() => document.querySelector('#cerrar-sesion a').click())
-
-  const selectorLogin = '#sinAutenticacion > li > a'
-  await page.waitForSelector(selectorLogin)
-  await page.waitForTimeout(5000)
-
-  await browser.close()
 })()

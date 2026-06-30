@@ -1,6 +1,8 @@
 const puppeteer = require('puppeteer')
 const actions = require('./actions')
 
+const defaultTimeout = Number(process.env.DEFAULT_TIMEOUT) || 60000
+
 module.exports = {
   login: async () => {
     console.log('Iniciando sesión en SII ...')
@@ -11,7 +13,8 @@ module.exports = {
     })
     const page = await browser.newPage()
     await page.setViewport({ width: 1366, height: 768 })
-    page.setDefaultNavigationTimeout(Number(process.env.DEFAULT_TIMEOUT))
+    page.setDefaultNavigationTimeout(defaultTimeout)
+    page.setDefaultTimeout(defaultTimeout)
 
     page.on('dialog', async (dialog) => {
       //get alert message

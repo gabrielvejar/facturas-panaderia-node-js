@@ -4,7 +4,32 @@ const { meses } = require('./const.json')
 const { login } = require('./commands')
 const fs = require('fs')
 
+const defaultTimeout = Number(process.env.DEFAULT_TIMEOUT) || 60000
+const logoutUrl = 'https://zeusr.sii.cl/cgi_AUT2000/autTermino.cgi'
+
 ;(async () => {
+  const cerrarSesion = async (page) => {
+    const selectorCerrarSesion = `a[href*="autTermino.cgi"]`
+
+    try {
+      await page.waitForSelector(selectorCerrarSesion, { timeout: 5000 })
+      await page.evaluate((selector) => {
+        document.querySelector(selector).click()
+      }, selectorCerrarSesion)
+    } catch (error) {
+      console.log('No se encontro el link de cierre. Cerrando por URL directa.')
+      await page.goto(logoutUrl, {
+        waitUntil: 'domcontentloaded',
+        timeout: defaultTimeout,
+      })
+    }
+
+    const selectorLogin = '#sinAutenticacion > li > a'
+    await page.waitForSelector(selectorLogin, { timeout: defaultTimeout })
+    await page.waitForTimeout(2000)
+    console.log('Sesión cerrada.')
+  }
+
   // const generarFacturas = async (page, dia, mes, anio, cliente) => {}
 
   const myArgs = process.argv.slice(2)
@@ -113,7 +138,8 @@ const fs = require('fs')
       '#VIEW_EFXP > div:nth-child(7) > div:nth-child(8) > div > input'
 
     await page.goto(
-      'https://www1.sii.cl/cgi-bin/Portal001/mipeGenFacEx.cgi?PTDC_CODIGO=33'
+      'https://www1.sii.cl/cgi-bin/Portal001/mipeGenFacEx.cgi?PTDC_CODIGO=33',
+      { waitUntil: 'domcontentloaded', timeout: defaultTimeout }
     )
 
     await page.waitForSelector(selectorRut)
@@ -253,45 +279,46 @@ const fs = require('fs')
   }
 
   const length = envQtyFromStart
-    ? envQtyFromStart + indexWhile
+    ? Number(envQtyFromStart) + indexWhile
     : facturas.length
   const maxErrors = 3
   let errorCount = 0
 
-  let browserGlobal
-  let pageGlobal
+  let browser
+  let page
 
   try {
-    // LOGIN
-    const { browser, page } = await login()
-    browserGlobal = browser
-    pageGlobal = page
-  } catch (error) {
-    
-  }
+    // Un solo inicio de sesión para todo el flujo de facturas.
+    const sesion = await login()
+    browser = sesion.browser
+    page = sesion.page
 
-  while (indexWhile < length && errorCount < maxErrors) {
-    try {
-      const factura = facturas[indexWhile]
-      console.log('===============')
-      console.log(`RUT: ${factura.rut}`)
-      await hacerFacturas(pageGlobal, envDate, envMonth, envYear, factura)
-      indexWhile += 1
-      errorCount = 0
-      // //close browser
-      // await browser.close()
-    } catch (error) {
-      console.log('Error')
-      console.log(error)
-      errorCount += 1
-      browserGlobal?.close()
-      // RE-LOGIN
-      const { browser, page } = await login()
-      browserGlobal = browser
-      pageGlobal = page
+    while (indexWhile < length && errorCount < maxErrors) {
+      try {
+        const factura = facturas[indexWhile]
+        console.log('===============')
+        console.log(`RUT: ${factura.rut}`)
+        await hacerFacturas(page, envDate, envMonth, envYear, factura)
+        indexWhile += 1
+        errorCount = 0
+      } catch (error) {
+        console.log('Error')
+        console.log(error)
+        errorCount += 1
+      }
     }
+  } finally {
+    if (page) {
+      try {
+        await cerrarSesion(page)
+      } catch (error) {
+        console.log('No se pudo cerrar sesión desde la página.')
+        console.log(error)
+      }
+    }
+
+    await browser?.close()
   }
-  browserGlobal?.close()
   console.log('--- Proceso terminado ---')
 
 })()
