@@ -8,9 +8,11 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "guias": "node guias.js",
+    "g:a": "node guias-asistente.js",
     "informes": "node informes.js",
     "facturas": "node facturas.js",
     "g": "node guias.js",
+    "ga": "node guias-asistente.js",
     "i": "node informes.js",
     "f": "node facturas.js"
   },
