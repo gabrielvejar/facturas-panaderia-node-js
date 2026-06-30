@@ -1,14 +1,5 @@
 [
   {
-    "rut": "13914981",
-    "dv": "5",
-    "razon_social": "PRISCILLA ANDREA NARVAEZ AHUMADA",
-    "nombre": "LOS NIETOS",
-    "kilos": 12,
-    "precio": 1700,
-    "kilos_variables": true
-  },
-  {
     "rut": "13238624",
     "dv": "2",
     "razon_social": "FABIOLA ANDREA GOMEZ VENEGAS",
@@ -59,15 +50,6 @@
     "razon_social": "CRISTIAN ANDRES GONZALEZ PINO",
     "nombre": "CRISTIAN",
     "kilos": 4,
-    "precio": 1700,
-    "kilos_variables": true
-  },
-  {
-    "rut": "17256921",
-    "dv": "8",
-    "razon_social": "DANIELA CAROLINA HERRERA PADILLA",
-    "nombre": "DANIELA",
-    "kilos": 15,
     "precio": 1700,
     "kilos_variables": true
   },
